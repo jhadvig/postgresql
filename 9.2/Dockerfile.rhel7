@@ -5,7 +5,7 @@ MAINTAINER  Martin Nagy <mnagy@redhat.com>
 # Volumes:
 #  * /var/lib/psql/data   - Database cluster for PostgreSQL
 # Environment:
-#  * $POSTGRESQL_USER     - Database user name
+#  * $POSTGRESQL_USERNAME - Database user name
 #  * $POSTGRESQL_PASSWORD - User's password
 #  * $POSTGRESQL_DATABASE - Name of the database to create
 #  * $POSTGRESQL_ADMIN_PASSWORD (Optional) - Password for the 'postgres'

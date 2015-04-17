@@ -61,7 +61,7 @@ initialization, by passing `-e VAR=VALUE` to the Docker run command.
 
 |    Variable name             |    Description                                 |
 | :--------------------------- | ---------------------------------------------- |
-|  `POSTGRESQL_USER`           | User name for PostgreSQL account to be created |
+|  `POSTGRESQL_USERNAME`       | User name for PostgreSQL account to be created |
 |  `POSTGRESQL_PASSWORD`       | Password for the user account                  |
 |  `POSTGRESQL_DATABASE`       | Database name                                  |
 |  `POSTGRESQL_ADMIN_PASSWORD` | Password for the `postgres` admin account (optional)     |
@@ -88,7 +88,7 @@ If you want to set only mandatory environment variables and not store the databa
 in a host directory, you need to execute the following command:
 
 ```
-$ docker run -d --name postgresql_database -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -p 5432:5432 openshift/postgresql-92-centos7
+$ docker run -d --name postgresql_database -e POSTGRESQL_USERNAME=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -p 5432:5432 openshift/postgresql-92-centos7
 ```
 
 This will create a container named `postgresql_database` running PostgreSQL with

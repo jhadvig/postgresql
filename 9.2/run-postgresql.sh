@@ -22,7 +22,7 @@ function usage() {
 		echo "error: $1"
 	fi
 	echo "You must specify following environment variables:"
-	echo "  POSTGRESQL_USER (regex: '$psql_identifier_regex')"
+	echo "  POSTGRESQL_USERNAME (regex: '$psql_identifier_regex')"
 	echo "  POSTGRESQL_PASSWORD (regex: '$psql_password_regex')"
 	echo "  POSTGRESQL_DATABASE (regex: '$psql_identifier_regex')"
 	echo "Optional:"
@@ -34,12 +34,12 @@ function usage() {
 }
 
 function check_env_vars() {
-	if ! [[ -v POSTGRESQL_USER && -v POSTGRESQL_PASSWORD && -v POSTGRESQL_DATABASE ]]; then
+	if ! [[ -v POSTGRESQL_USERNAME && -v POSTGRESQL_PASSWORD && -v POSTGRESQL_DATABASE ]]; then
 		usage
 	fi
 
-	[[ "$POSTGRESQL_USER"     =~ $psql_identifier_regex ]] || usage
-	[ ${#POSTGRESQL_USER} -le 63 ] || usage "PostgreSQL username too long (maximum 63 characters)"
+	[[ "$POSTGRESQL_USERNAME"     =~ $psql_identifier_regex ]] || usage
+	[ ${#POSTGRESQL_USERNAME} -le 63 ] || usage "PostgreSQL username too long (maximum 63 characters)"
 	[[ "$POSTGRESQL_PASSWORD" =~ $psql_password_regex   ]] || usage
 	[[ "$POSTGRESQL_DATABASE" =~ $psql_identifier_regex ]] || usage
 	[ ${#POSTGRESQL_DATABASE} -le 63 ] || usage "Database name too long (maximum 63 characters)"
@@ -50,7 +50,7 @@ function check_env_vars() {
 
 # Make sure env variables don't propagate to PostgreSQL process.
 function unset_env_vars() {
-	unset POSTGRESQL_USER
+	unset POSTGRESQL_USERNAME
 	unset POSTGRESQL_PASSWORD
 	unset POSTGRESQL_DATABASE
 	unset POSTGRESQL_ADMIN_PASSWORD
@@ -83,9 +83,9 @@ function initialize_database() {
 	EOF
 
 	pg_ctl -w start
-	createuser "$POSTGRESQL_USER"
-	createdb --owner="$POSTGRESQL_USER" "$POSTGRESQL_DATABASE"
-	psql --command "ALTER USER \"${POSTGRESQL_USER}\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_PASSWORD}';"
+	createuser "$POSTGRESQL_USERNAME"
+	createdb --owner="$POSTGRESQL_USERNAME" "$POSTGRESQL_DATABASE"
+	psql --command "ALTER USER \"${POSTGRESQL_USERNAME}\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_PASSWORD}';"
 
 	if [ -v POSTGRESQL_ADMIN_PASSWORD ]; then
 		psql --command "ALTER USER \"postgres\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_ADMIN_PASSWORD}';"

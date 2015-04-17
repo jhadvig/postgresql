@@ -118,8 +118,8 @@ function assert_container_creation_fails() {
 
 function try_image_invalid_combinations() {
 	assert_container_creation_fails "$@"
-	assert_container_creation_fails -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass "$@"
-	assert_container_creation_fails -e POSTGRESQL_USER=user -e POSTGRESQL_DATABASE=db "$@"
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=user -e POSTGRESQL_PASSWORD=pass "$@"
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=user -e POSTGRESQL_DATABASE=db "$@"
 	assert_container_creation_fails -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db "$@"
 }
 
@@ -129,12 +129,12 @@ function run_container_creation_tests() {
 	try_image_invalid_combinations  -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
 
 	VERY_LONG_IDENTIFIER="very_long_identifier_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-	assert_container_creation_fails -e POSTGRESQL_USER=0invalid -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
-	assert_container_creation_fails -e POSTGRESQL_USER=$VERY_LONG_IDENTIFIER -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
-	assert_container_creation_fails -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD="\"" -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
-	assert_container_creation_fails -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=9invalid -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
-	assert_container_creation_fails -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=$VERY_LONG_IDENTIFIER -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
-	assert_container_creation_fails -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD="\""
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=0invalid -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=$VERY_LONG_IDENTIFIER -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=user -e POSTGRESQL_PASSWORD="\"" -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=9invalid -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=$VERY_LONG_IDENTIFIER -e POSTGRESQL_ADMIN_PASSWORD=admin_pass
+	assert_container_creation_fails -e POSTGRESQL_USERNAME=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -e POSTGRESQL_ADMIN_PASSWORD="\""
 	echo "  Success!"
 }
 
@@ -157,7 +157,7 @@ function run_configuration_tests() {
 
 function run_tests() {
 	local name=$1 ; shift
-	envs="-e POSTGRESQL_USER=$USER -e POSTGRESQL_PASSWORD=$PASS -e POSTGRESQL_DATABASE=db"
+	envs="-e POSTGRESQL_USERNAME=$USER -e POSTGRESQL_PASSWORD=$PASS -e POSTGRESQL_DATABASE=db"
 	if [ -v ADMIN_PASS ]; then
 		envs="$envs -e POSTGRESQL_ADMIN_PASSWORD=$ADMIN_PASS"
 	fi
